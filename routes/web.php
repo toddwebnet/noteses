@@ -11,6 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'UserController@home');
+Route::get('/login', 'UserController@login');
+Route::post('/credentials', 'UserController@credentials');
+
+Route::middleware([
+        \App\Http\Middleware\SecurityValidation::class]
+)->group(function () {
+    Route::get('/home', 'NotesController@home');
+    Route::get('/notes', 'NotesController@getNotes');
+    Route::get('/note/form/{id}', 'NotesController@form');
+    Route::post('/note/form', 'NotesController@formSave');
 });
